@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example</title>
+
+
+  <!-- include source files here... -->
+  <script src="../src/cForm.js"></script>
+
+
+
+</head>
+
+<body>
+
+    <h2>myForm</h2>
+
+	<div id="page">
+
+        <form name="myForm">
+            <input type="text" name="myName" value="1" />
+        </form>
+
+    </div>
+
+    <hr>
+
+    <h2>myFormID</h2>
+
+    <form id="myFormID">
+        <input type="text" name="myId" value="2" />
+        <input type="text" class="myFormIDstr" name="myStr" value="" />
+        <input type="text" id="myFormIDort" name="myOrt" value="4" />
+        <ul>
+            <li>
+                <input type="text" name="myFormID.myChild1" value="5.1" />
+            </li>
+            <li>
+                <select name="myFormID.myChildSelect">
+                    <option>5.3.1</option>
+                    <option>5.3.2</option>
+                    <option>5.3.3</option>
+                </select>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <input type="text" name="myFormID.myTest.myMiniChild" value="5.1" />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <input type="text" name="myFormID.myChild2" value="5.2" />
+    </form>
+
+    <hr>
+
+    <h2>myFormSelect</h2>
+
+    <form name="myFormSelect">
+        <input type="text" name="myChoose" />
+        <select name="mySelect">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+    </form>
+
+    <hr>
+
+    <h2>setForm</h2>
+
+    <form name="setForm">
+        <input type="text" name="myId" />
+        <input type="text" class="myFormIDstr" name="myStr"  />
+        <ul>
+            <li>
+                <input type="text" name="myNothing1"  />
+            </li>
+            <li>
+                <input type="text" name="myNothing2"  />
+            </li>
+            <li>
+                <input type="text" id="myFormIDort" name="myOrt"  />
+            </li>
+            <li>
+                <select name="mySelect">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                </select>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <input type="text" name="myDeeper.myField" />
+                    <li>
+                    <li>
+                        <ul>
+                            <li>
+                                <input type="text" name="myDeeper.deeper.myTest" />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </form>
+
+	<script>
+
+		var myForm = new cForm('myForm');
+
+		console.log(myForm);
+
+
+
+        var myFormID = new cForm('#myFormID');
+
+        console.log( 'myId', myFormID.getValue('myId') );
+        console.log( '.myFormIDstr', myFormID.getValue('.myFormIDstr') );
+        console.log( '#myFormIDort', myFormID.getValue('#myFormIDort') );
+
+        console.log( 'myFormID.myChild1', myFormID.getValue('myFormID.myChild1') );
+        console.log( 'myFormID.myChild2', myFormID.getValue('myFormID.myChild2') );
+        console.log( 'myFormID.myChildSelect', myFormID.getValue('myFormID.myChildSelect') );
+
+        console.log( myFormID.getValues() );
+
+
+
+        var setForm = new cForm('setForm');
+        var obj = {
+            myId: 3,
+            myNothing1: '',
+            myOrt: 'mein Ort',
+            myError:  'no input field!',
+            myDeeper: {
+                myField: 'is filled',
+                deeper: {
+                    myTest: 'filled !!!'
+                }
+            },
+            myNothing2: 'nothing',
+            mySelect: 2
+        };
+        setForm.setValues(obj);
+
+	</script>
+
+
+</body>
+</html>
