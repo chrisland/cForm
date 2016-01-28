@@ -78,7 +78,7 @@
     </form>
     <button onclick="SubmitMyFormSelect()">Submit</button>
 
-    
+
     <hr>
 
     <h2>setForm</h2>
@@ -164,7 +164,7 @@
         console.log( myValidate.getValues() );
 
         function SubmitMyFormSelect() {
-          console.log( myValidate.validate() );
+          console.log( myValidate.validate({required: 'invalide'}) );
           return false;
         }
 

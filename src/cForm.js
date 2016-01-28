@@ -2,7 +2,7 @@
 * Easy JS Form Framework
 *
 * @class cPager
-* @version 0.0.2
+* @version 0.0.3
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
@@ -93,14 +93,14 @@ cForm.prototype.setValues = function (obj) {
 // error code:
 // 1: required but empty
 
-cForm.prototype.validate = function (child) {
+cForm.prototype.validate = function (param) {
 
 	if (!this._node) {
 		throw new Error("missing main container");
 		return false
 	}
 
-	return this._h.validateFromNodes(this._node) || false;
+	return this._h.validateFromNodes(this._node, param) || false;
 
 };
 
@@ -139,7 +139,7 @@ cForm.prototype._h = {
 		}
 
 	},
-	validateFromNodes: function (parent) {
+	validateFromNodes: function (parent, param) {
 
 		if (!parent) {
 			return false;
@@ -153,11 +153,18 @@ cForm.prototype._h = {
 
 		for (var i = children.length-1 ; i >= 0; i--) {
 
+
 			// -> required
 			if ( children[i].getAttribute('required') != null ) {
+				if ( children[i].classList.contains(param.required) ) {
+					children[i].classList.remove(param.required)
+				}
 				if (!children[i].value) {
 					_valide = false;
 					ret.fields.push({code: 1, name: children[i].name, node: children[i] });
+					if (param.required) {
+						children[i].classList.add(param.required);
+					}
 				}
 			}
 
