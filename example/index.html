@@ -65,8 +65,20 @@
             <option>2</option>
             <option>3</option>
         </select>
-    </form>
 
+        <input type="text" name="myName1" />
+        <input type="text" name="myName2" required />
+
+        <select name="myName3" required>
+            <option value=""> - </option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+    </form>
+    <button onclick="SubmitMyFormSelect()">Submit</button>
+
+    
     <hr>
 
     <h2>setForm</h2>
@@ -146,6 +158,16 @@
             mySelect: 2
         };
         setForm.setValues(obj);
+
+
+        var myValidate = new cForm('myFormSelect');
+        console.log( myValidate.getValues() );
+
+        function SubmitMyFormSelect() {
+          console.log( myValidate.validate() );
+          return false;
+        }
+
 
 	</script>
 
