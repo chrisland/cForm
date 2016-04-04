@@ -1,3 +1,5 @@
+"use strict";
+
 /**
 * Easy JS Form Framework
 *
