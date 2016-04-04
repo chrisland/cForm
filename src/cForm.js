@@ -4,7 +4,7 @@
 * Easy JS Form Framework
 *
 * @class cPager
-* @version 0.0.3
+* @version 0.0.4
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
