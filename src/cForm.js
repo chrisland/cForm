@@ -2,7 +2,7 @@
 * Easy JS Form Framework
 *
 * @class cPager
-* @version 0.0.5
+* @version 0.0.7
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
@@ -52,7 +52,6 @@
       this._node = document.body;
     }
 
-
   	// INIT
   	if (node) {
   		this._node = this._h.findForm(node, doc);
@@ -65,6 +64,30 @@
 
   	return this;
   }
+
+  cForm.prototype.getForm = function (child) {
+
+  	if (!this._node) {
+  		throw new Error("Form could not be found");
+  		return false;
+  	}
+
+  	return this._node || false;
+
+  };
+
+  cForm.prototype.getField = function (child) {
+
+  	var node = this._h.findField(this._node, child);
+
+  	if (!node) {
+  		throw new Error("Field could not be found");
+  		return false;
+  	}
+
+  	return node || false;
+
+  };
 
 
   cForm.prototype.getValue = function (child) {
@@ -81,14 +104,14 @@
   };
 
 
-  cForm.prototype.getValues = function () {
+  cForm.prototype.getValues = function (query) {
 
   	if (!this._node) {
   		throw new Error("missing main container");
   		return false
   	}
 
-  	return this._h.makeObjFromNodes(this._node) || false;
+  	return this._h.makeObjFromNodes(this._node, query) || false;
 
   };
 
@@ -132,6 +155,20 @@
 
 
 
+  cForm.prototype.submit = function (param) {
+
+    if (!this._node) {
+      throw new Error("missing main container");
+      return false
+    }
+    if (!param) {
+      this._node.onsubmit = function () { return false; };
+    }
+
+    return this;
+
+  };
+
 
   cForm.prototype._h = {
 
@@ -147,7 +184,7 @@
         if (doc.getElementById) {
           return doc.getElementById(node.substring(1)) || false;
         } else {
-          return doc.querySelector(node.substring(1)) || false;
+          return doc.querySelector(node) || false;
         }
   		} else {
   			return doc.forms[node] || false;
@@ -204,13 +241,16 @@
   		return ret || false;
 
   	},
-  	makeObjFromNodes: function (parent) {
+  	makeObjFromNodes: function (parent, query) {
 
+      if (!query) {
+        query = 'input, select'
+      }
   		if (!parent) {
   			return false;
   		}
   		var ret = {};
-  		var children = parent.querySelectorAll('input, select');
+  		var children = parent.querySelectorAll(query);
 
   		for (var i = children.length-1 ; i >= 0; i--) {
   			//console.log(i, children[i]);
