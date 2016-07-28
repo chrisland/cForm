@@ -2,7 +2,7 @@
 * Easy JS Form Framework
 *
 * @class cPager
-* @version 0.0.7
+* @version 0.0.8
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
@@ -253,7 +253,8 @@
   		var children = parent.querySelectorAll(query);
 
   		for (var i = children.length-1 ; i >= 0; i--) {
-  			//console.log(i, children[i]);
+
+        //console.log(i, children[i]);
 
   			if (children[i].name) {
   				if (children[i].name.indexOf('.') > -1) {
@@ -276,13 +277,40 @@
   								}
   								rootObj = rootObj[ split[j] ];
   							} else {
-  								rootObj[ split[j] ] = children[i].value || '';
+                  //console.log('hier! '+children[i].value);
+
+                  if (children[i].type == 'checkbox') {
+
+                    if (children[i].checked == true) {
+                      if ( typeof rootObj[ split[j] ] === 'object' && rootObj[ split[j] ].length ) {
+                        rootObj[ split[j] ].push(children[i].value);
+                      } else {
+                        rootObj[ split[j] ] = [ children[i].value ];
+                      }
+                    }
+
+                  } else {
+  								  rootObj[ split[j] ] = children[i].value || '';
+                  }
   							}
   						}
   					}
   				} else {
-  					ret[children[i].name] = children[i].value || '';
-  				}
+
+            if (children[i].type == 'checkbox') {
+
+              if (children[i].checked == true) {
+                if ( typeof ret[children[i].name] === 'object' && ret[children[i].name].length ) {
+                  ret[children[i].name].push(children[i].value);
+                } else {
+                  ret[children[i].name] = [ children[i].value ];
+                }
+              }
+
+            } else {
+  					  ret[children[i].name] = children[i].value || '';
+            }
+          }
   			}
   		}
   		return ret || false;
